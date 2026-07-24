@@ -1,0 +1,12 @@
+{
+  "items": [
+    { "id": "b1", "name": "Marchetti Colore", "category": "paint" },
+    { "id": "b2", "name": "Calce Viva", "category": "paint" },
+    { "id": "b3", "name": "Casa Tessuto", "category": "wallpaper" },
+    { "id": "b4", "name": "Botanica Carta", "category": "wallpaper" },
+    { "id": "b5", "name": "Portello Milano", "category": "doors" },
+    { "id": "b6", "name": "Legno & Ferro", "category": "doors" },
+    { "id": "b7", "name": "Rovere Atelier", "category": "parquet" },
+    { "id": "b8", "name": "Tavole del Nord", "category": "parquet" }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "items": [
+    {
+      "id": "paint",
+      "texture": "paint",
+      "index": { "az": "01 — BOYA", "en": "01 — PAINT", "ru": "01 — КРАСКА" },
+      "desc": {
+        "az": "Nəfəs alan əhəngli və mineral boyalar, fərdi çalar seçimi, mat təbaşirdən dərin lak parıltısına qədər örtüklər.",
+        "en": "Breathable lime and mineral paints, bespoke tinting, and finishes from matte chalk to deep lacquer.",
+        "ru": "Дышащие известковые и минеральные краски, индивидуальный подбор оттенка, покрытия от матового мела до глубокого лака."
+      },
+      "cta": { "az": "Boya çeşidinə bax", "en": "View paint range", "ru": "Смотреть краски" }
+    },
+    {
+      "id": "wallpaper",
+      "texture": "wallpaper",
+      "index": { "az": "02 — DİVAR KAĞIZI", "en": "02 — WALLPAPER", "ru": "02 — ОБОИ" },
+      "desc": {
+        "az": "Kiçik tirajlı Avropa divar kağızları — botanik, suvaq effektli və toxuma naxışlı, məqsədli otaqlar üçün.",
+        "en": "European wallpapers in small print runs — botanical, plaster-effect and textile weaves for rooms with intent.",
+        "ru": "Европейские обои малых тиражей — ботанические, под штукатурку и текстильные фактуры для продуманных интерьеров."
+      },
+      "cta": { "az": "Divar kağızı çeşidinə bax", "en": "View wallpaper range", "ru": "Смотреть обои" }
+    },
+    {
+      "id": "doors",
+      "texture": "doors",
+      "index": { "az": "03 — QAPILAR", "en": "03 — DOORS", "ru": "03 — ДВЕРИ" },
+      "desc": {
+        "az": "Palıd, qoz ağacı və lak örtüklü massiv interyer qapıları, bürünc və mat qara aksesuarlarla.",
+        "en": "Solid interior doors in oak, walnut and lacquered finishes, fitted with brass and matte-black hardware.",
+        "ru": "Массивные межкомнатные двери из дуба, ореха и лакированных пород с латунной и матово-чёрной фурнитурой."
+      },
+      "cta": { "az": "Qapı çeşidinə bax", "en": "View door range", "ru": "Смотреть двери" }
+    },
+    {
+      "id": "parquet",
+      "texture": "parquet",
+      "index": { "az": "04 — PARKET", "en": "04 — PARQUET", "ru": "04 — ПАРКЕТ" },
+      "desc": {
+        "az": "Mühəndis və massiv parket — balıqqulağı, şevron və geniş lövhəli palıd, sifarişə uyğun emal olunur.",
+        "en": "Engineered and solid parquet — herringbone, chevron and wide-plank oak, finished to order.",
+        "ru": "Инженерный и массивный паркет — ёлочка, шеврон и широкая дубовая доска, обработка на заказ."
+      },
+      "cta": { "az": "Parket çeşidinə bax", "en": "View parquet range", "ru": "Смотреть паркет" }
+    }
+  ]
+}

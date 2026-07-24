@@ -1,0 +1,282 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Enables drag-and-drop / browse uploads. Files land in /uploads and are
+# referenced with a relative path, e.g. "uploads/living-room-1.jpg"
+media_folder: "uploads"
+public_folder: "/uploads"
+
+# Shown at the top of the admin UI
+site_url: https://your-site-name.netlify.app
+logo_url: /uploads/logo.png
+
+locale: "en"
+
+collections:
+  # ------------------------------------------------------------------
+  # 1) SITE TEXTS — one file per language, all static labels/headlines
+  # ------------------------------------------------------------------
+  - name: "site_texts"
+    label: "Site Texts (AZ / EN / RU)"
+    files:
+      - file: "content/i18n/az.json"
+        label: "Texts — Azerbaijani (AZ)"
+        name: "texts_az"
+        fields: &text_fields
+          - { label: "Nav — About", name: "nav_about", widget: "string" }
+          - { label: "Nav — Products", name: "nav_products", widget: "string" }
+          - { label: "Nav — Why Us", name: "nav_why", widget: "string" }
+          - { label: "Nav — Brands", name: "nav_brands", widget: "string" }
+          - { label: "Nav — Gallery", name: "nav_gallery", widget: "string" }
+          - { label: "Nav — Reviews", name: "nav_reviews", widget: "string" }
+          - { label: "Nav — Contact", name: "nav_contact", widget: "string" }
+          - { label: "Nav — Button (CTA)", name: "nav_cta", widget: "string" }
+
+          - { label: "Hero — Eyebrow label", name: "hero_eyebrow", widget: "string" }
+          - { label: "Hero — Headline (HTML allowed, e.g. <em>word</em>)", name: "hero_headline", widget: "string" }
+          - { label: "Hero — Subtext", name: "hero_sub", widget: "text" }
+          - { label: "Hero — Primary button", name: "hero_cta_primary", widget: "string" }
+          - { label: "Hero — Secondary button", name: "hero_cta_secondary", widget: "string" }
+          - { label: "Hero — 'Since' line (HTML allowed, <br> for line break)", name: "hero_since", widget: "text" }
+          - { label: "Hero — Offer row label", name: "hero_offer_label", widget: "string" }
+
+          - { label: "About — Eyebrow", name: "about_eyebrow", widget: "string" }
+          - { label: "About — Photo caption label", name: "about_since_lbl", widget: "string" }
+          - { label: "About — Headline", name: "about_headline", widget: "string" }
+          - { label: "About — Paragraph 1", name: "about_p1", widget: "text" }
+          - { label: "About — Paragraph 2", name: "about_p2", widget: "text" }
+          - { label: "About — Quote", name: "about_quote", widget: "text" }
+          - { label: "About — Stat 1 label", name: "about_stat1_label", widget: "string" }
+          - { label: "About — Stat 2 label", name: "about_stat2_label", widget: "string" }
+          - { label: "About — Stat 3 label", name: "about_stat3_label", widget: "string" }
+
+          - { label: "Products — Eyebrow", name: "products_eyebrow", widget: "string" }
+          - { label: "Products — Headline", name: "products_headline", widget: "string" }
+          - { label: "Products — Subtext", name: "products_sub", widget: "text" }
+          - { label: "Product name — Paint", name: "paint_name", widget: "string" }
+          - { label: "Product name — Wallpaper", name: "wallpaper_name", widget: "string" }
+          - { label: "Product name — Doors", name: "doors_name", widget: "string" }
+          - { label: "Product name — Parquet", name: "parquet_name", widget: "string" }
+
+          - { label: "Why Us — Eyebrow", name: "why_eyebrow", widget: "string" }
+          - { label: "Why Us — Headline", name: "why_headline", widget: "string" }
+          - { label: "Why Us — Subtext", name: "why_sub", widget: "text" }
+          - { label: "Why 1 — Title", name: "why1_title", widget: "string" }
+          - { label: "Why 1 — Description", name: "why1_desc", widget: "text" }
+          - { label: "Why 2 — Title", name: "why2_title", widget: "string" }
+          - { label: "Why 2 — Description", name: "why2_desc", widget: "text" }
+          - { label: "Why 3 — Title", name: "why3_title", widget: "string" }
+          - { label: "Why 3 — Description", name: "why3_desc", widget: "text" }
+          - { label: "Why 4 — Title", name: "why4_title", widget: "string" }
+          - { label: "Why 4 — Description", name: "why4_desc", widget: "text" }
+          - { label: "Why 5 — Title", name: "why5_title", widget: "string" }
+          - { label: "Why 5 — Description", name: "why5_desc", widget: "text" }
+
+          - { label: "Brands — Eyebrow", name: "brands_eyebrow", widget: "string" }
+          - { label: "Brands — Headline", name: "brands_headline", widget: "string" }
+          - { label: "Brands — Subtext", name: "brands_sub", widget: "text" }
+
+          - { label: "Gallery — Eyebrow", name: "gallery_eyebrow", widget: "string" }
+          - { label: "Gallery — Headline", name: "gallery_headline", widget: "string" }
+          - { label: "Gallery — Subtext", name: "gallery_sub", widget: "text" }
+          - { label: "Filter — All", name: "filter_all", widget: "string" }
+          - { label: "Filter — Living Room", name: "filter_living", widget: "string" }
+          - { label: "Filter — Bedroom", name: "filter_bedroom", widget: "string" }
+          - { label: "Filter — Entrance", name: "filter_entrance", widget: "string" }
+          - { label: "Filter — Office", name: "filter_office", widget: "string" }
+
+          - { label: "Reviews — Eyebrow", name: "reviews_eyebrow", widget: "string" }
+          - { label: "Reviews — Headline", name: "reviews_headline", widget: "string" }
+
+          - { label: "Contact — Eyebrow", name: "contact_eyebrow", widget: "string" }
+          - { label: "Contact — Headline", name: "contact_headline", widget: "string" }
+          - { label: "Contact — Subtext", name: "contact_sub", widget: "text" }
+          - { label: "Form — Name field", name: "form_name", widget: "string" }
+          - { label: "Form — Phone field", name: "form_phone", widget: "string" }
+          - { label: "Form — Email field", name: "form_email", widget: "string" }
+          - { label: "Form — Interest field", name: "form_interest", widget: "string" }
+          - { label: "Form — Interest option 1", name: "form_interest_opt1", widget: "string" }
+          - { label: "Form — Interest option 2", name: "form_interest_opt2", widget: "string" }
+          - { label: "Form — Interest option 3", name: "form_interest_opt3", widget: "string" }
+          - { label: "Form — Interest option 4", name: "form_interest_opt4", widget: "string" }
+          - { label: "Form — Interest option 5", name: "form_interest_opt5", widget: "string" }
+          - { label: "Form — Message field", name: "form_message", widget: "string" }
+          - { label: "Form — Submit button", name: "form_submit", widget: "string" }
+          - { label: "Form — Note under button", name: "contact_form_note", widget: "text" }
+          - { label: "Form — Success message", name: "form_success_msg", widget: "text" }
+          - { label: "Contact — Address label", name: "contact_address_label", widget: "string" }
+          - { label: "Contact — Hours label", name: "contact_hours_label", widget: "string" }
+          - { label: "Contact — Hours value", name: "contact_hours_value", widget: "string" }
+          - { label: "Contact — Phone label", name: "contact_phone_label", widget: "string" }
+          - { label: "Contact — Email label", name: "contact_email_label", widget: "string" }
+
+          - { label: "Footer — Tagline", name: "footer_tagline", widget: "text" }
+          - { label: "Footer — 'Explore' column title", name: "footer_col_explore", widget: "string" }
+          - { label: "Footer — 'Materials' column title", name: "footer_col_materials", widget: "string" }
+          - { label: "Newsletter — Label", name: "newsletter_label", widget: "text" }
+          - { label: "Newsletter — Input placeholder", name: "newsletter_placeholder", widget: "string" }
+          - { label: "Footer — Copyright line", name: "footer_copyright", widget: "string" }
+          - { label: "Footer — Privacy link text", name: "footer_privacy", widget: "string" }
+          - { label: "Footer — Terms link text", name: "footer_terms", widget: "string" }
+
+      - file: "content/i18n/en.json"
+        label: "Texts — English (EN)"
+        name: "texts_en"
+        fields: *text_fields
+
+      - file: "content/i18n/ru.json"
+        label: "Texts — Russian (RU)"
+        name: "texts_ru"
+        fields: *text_fields
+
+  # ------------------------------------------------------------------
+  # 2) HERO SLIDESHOW IMAGES
+  # ------------------------------------------------------------------
+  - name: "hero"
+    label: "Hero Slideshow"
+    files:
+      - file: "content/hero.json"
+        label: "Hero Images"
+        name: "hero_images"
+        fields:
+          - label: "Slides (shown in rotation, ~4s each)"
+            name: "slides"
+            widget: "list"
+            field: { label: "Image", name: "image", widget: "image" }
+
+  # ------------------------------------------------------------------
+  # 3) PRODUCTS
+  # ------------------------------------------------------------------
+  - name: "products"
+    label: "Products"
+    files:
+      - file: "content/products.json"
+        label: "Product Cards"
+        name: "products"
+        fields:
+          - label: "Products"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.id}}"
+            fields:
+              - { label: "ID (do not change)", name: "id", widget: "string" }
+              - { label: "Texture style (paint / wallpaper / doors / parquet)", name: "texture", widget: "select", options: ["paint", "wallpaper", "doors", "parquet"] }
+              - label: "Index label (e.g. '01 — PAINT')"
+                name: "index"
+                widget: "object"
+                fields:
+                  - { label: "AZ", name: "az", widget: "string" }
+                  - { label: "EN", name: "en", widget: "string" }
+                  - { label: "RU", name: "ru", widget: "string" }
+              - label: "Description"
+                name: "desc"
+                widget: "object"
+                fields:
+                  - { label: "AZ", name: "az", widget: "text" }
+                  - { label: "EN", name: "en", widget: "text" }
+                  - { label: "RU", name: "ru", widget: "text" }
+              - label: "Button text"
+                name: "cta"
+                widget: "object"
+                fields:
+                  - { label: "AZ", name: "az", widget: "string" }
+                  - { label: "EN", name: "en", widget: "string" }
+                  - { label: "RU", name: "ru", widget: "string" }
+
+  # ------------------------------------------------------------------
+  # 4) GALLERY
+  # ------------------------------------------------------------------
+  - name: "gallery"
+    label: "Gallery"
+    files:
+      - file: "content/gallery.json"
+        label: "Gallery Items"
+        name: "gallery"
+        fields:
+          - label: "Gallery items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.room}} — {{fields.id}}"
+            fields:
+              - { label: "ID (do not change)", name: "id", widget: "string" }
+              - { label: "Texture style (fallback if no photo uploaded)", name: "texture", widget: "select", options: ["g1","g2","g3","g4","g5","g6","g7","g8"] }
+              - { label: "Room", name: "room", widget: "select", options: ["living", "bedroom", "entrance", "office"] }
+              - { label: "Photo (optional — leave empty to use the texture style above)", name: "image", widget: "image", required: false }
+              - label: "Caption"
+                name: "caption"
+                widget: "object"
+                fields:
+                  - { label: "AZ", name: "az", widget: "string" }
+                  - { label: "EN", name: "en", widget: "string" }
+                  - { label: "RU", name: "ru", widget: "string" }
+
+  # ------------------------------------------------------------------
+  # 5) REVIEWS
+  # ------------------------------------------------------------------
+  - name: "reviews"
+    label: "Reviews"
+    files:
+      - file: "content/reviews.json"
+        label: "Customer Reviews"
+        name: "reviews"
+        fields:
+          - label: "Reviews"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.id}}"
+            fields:
+              - { label: "ID (do not change)", name: "id", widget: "string" }
+              - label: "Quote"
+                name: "text"
+                widget: "object"
+                fields:
+                  - { label: "AZ", name: "az", widget: "text" }
+                  - { label: "EN", name: "en", widget: "text" }
+                  - { label: "RU", name: "ru", widget: "text" }
+              - label: "Author line (e.g. 'Name — Role')"
+                name: "author"
+                widget: "object"
+                fields:
+                  - { label: "AZ", name: "az", widget: "string" }
+                  - { label: "EN", name: "en", widget: "string" }
+                  - { label: "RU", name: "ru", widget: "string" }
+
+  # ------------------------------------------------------------------
+  # 6) BRANDS
+  # ------------------------------------------------------------------
+  - name: "brands"
+    label: "Brands"
+    files:
+      - file: "content/brands.json"
+        label: "Featured Brands"
+        name: "brands"
+        fields:
+          - label: "Brands"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "ID (do not change)", name: "id", widget: "string" }
+              - { label: "Brand name", name: "name", widget: "string" }
+              - { label: "Category", name: "category", widget: "select", options: ["paint", "wallpaper", "doors", "parquet"] }
+
+  # ------------------------------------------------------------------
+  # 7) SITE SETTINGS (contact info, stats, logo)
+  # ------------------------------------------------------------------
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - file: "content/settings.json"
+        label: "General Settings"
+        name: "settings"
+        fields:
+          - { label: "Logo", name: "logo", widget: "image" }
+          - { label: "Founding year", name: "founding_year", widget: "string" }
+          - { label: "Showroom address", name: "address", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Google Maps search query", name: "map_query", widget: "string" }
+          - { label: "Stat — Years in business", name: "stat_years", widget: "string" }
+          - { label: "Stat — Projects completed", name: "stat_projects", widget: "string" }
+          - { label: "Stat — Brands carried", name: "stat_brands", widget: "string" }

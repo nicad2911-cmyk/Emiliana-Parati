@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "id": "review1",
+      "text": {
+        "az": "İki dəfə ölçdülər, bir dəfə sifariş verdilər və qonaq otağımızdakı parket üç ildən sonra da yeni görünür.",
+        "en": "They measured twice, ordered once, and the parquet in our living room still looks new three years on.",
+        "ru": "Они дважды измерили, один раз заказали — и паркет в нашей гостиной спустя три года всё ещё выглядит как новый."
+      },
+      "author": { "az": "Leyla M. — Ev sahibi, Bakı", "en": "Leyla M. — Homeowner, Baku", "ru": "Лейла М. — Владелица дома, Баку" }
+    },
+    {
+      "id": "review2",
+      "text": {
+        "az": "Memar olaraq demək olar ki, hər yaşayış layihəsində onların boyasını seçirəm — rəng studiyası işığı həqiqətən anlayır.",
+        "en": "As an architect I specify their paint on almost every residential project — the colour studio actually understands light.",
+        "ru": "Как архитектор, я почти в каждом жилом проекте указываю их краску — студия колеровки действительно понимает свет."
+      },
+      "author": { "az": "Rəşad Q. — Memar", "en": "Rashad G. — Architect", "ru": "Рашад Г. — Архитектор" }
+    },
+    {
+      "id": "review3",
+      "text": {
+        "az": "Divar kağızı ilə bağlı fikrimizi iki dəfə dəyişdik və onlar bizi heç vaxt çətin müştəri kimi hiss etdirmədilər.",
+        "en": "We changed our minds twice on the wallpaper and they never made us feel difficult for it.",
+        "ru": "Мы дважды меняли решение по обоям, и нас ни разу не заставили почувствовать себя неудобными клиентами."
+      },
+      "author": { "az": "Nigar Ə. — Ev sahibi", "en": "Nigar A. — Homeowner", "ru": "Нигяр А. — Владелица дома" }
+    },
+    {
+      "id": "review4",
+      "text": {
+        "az": "Təkcə qapılar üçün şəhərin o başından gəlməyə dəyərdi. Əsl çəki, əsl mentaşa, heç bir qısayol yoxdur.",
+        "en": "The doors alone were worth the drive across the city. Real weight, real hinges, no shortcuts.",
+        "ru": "Ради одних дверей стоило ехать через весь город. Настоящий вес, настоящие петли, никаких компромиссов."
+      },
+      "author": { "az": "Elvin T. — Ev sahibi", "en": "Elvin T. — Homeowner", "ru": "Эльвин Т. — Владелец дома" }
+    }
+  ]
+}

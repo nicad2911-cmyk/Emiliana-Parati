@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "id": "g1", "texture": "g1", "room": "living", "image": "",
+      "caption": { "az": "Verde Bosco boyası · geniş lövhəli palıd parket · bürünc qapı aksesuarı", "en": "Verde Bosco paint · wide-plank oak parquet · brass door hardware", "ru": "Краска Verde Bosco · широкая дубовая доска · латунная фурнитура двери" }
+    },
+    {
+      "id": "g2", "texture": "g2", "room": "bedroom", "image": "",
+      "caption": { "az": "Suvaq effektli divar kağızı · lak qoz qapı · təbaşir ağ tavan", "en": "Plaster-effect wallpaper · lacquered walnut door · chalk white ceiling", "ru": "Обои под штукатурку · лакированная ореховая дверь · потолок цвета мела" }
+    },
+    {
+      "id": "g3", "texture": "g3", "room": "entrance", "image": "",
+      "caption": { "az": "Balıqqulağı naxışlı palıd parket · tünd kəhrəba boya · mat qara aksesuar", "en": "Herringbone oak parquet · deep umber paint · matte black hardware", "ru": "Дубовый паркет ёлочкой · глубокий охра-коричневый · матово-чёрная фурнитура" }
+    },
+    {
+      "id": "g4", "texture": "g4", "room": "office", "image": "",
+      "caption": { "az": "Botanik divar kağızı · tüstülü palıd qapı · mat lak haşiyə", "en": "Botanical wallpaper · smoked oak door · matte lacquer trim", "ru": "Ботанические обои · дымчатый дуб · матовая лаковая отделка" }
+    },
+    {
+      "id": "g5", "texture": "g5", "room": "living", "image": "",
+      "caption": { "az": "Gil-çəhrayı əhəng boya · şevron parket · bürünc divar çıraq xətti", "en": "Clay pink lime paint · chevron parquet · brass sconce line", "ru": "Глиняно-розовая известковая краска · паркет шеврон · латунные бра" }
+    },
+    {
+      "id": "g6", "texture": "g6", "room": "bedroom", "image": "",
+      "caption": { "az": "Toxuma naxışlı divar kağızı · ağ palıd parket · fil sümüyü tavan boyası", "en": "Textile-weave wallpaper · white oak parquet · ivory ceiling paint", "ru": "Текстильные обои · паркет из белого дуба · потолок цвета слоновой кости" }
+    },
+    {
+      "id": "g7", "texture": "g7", "room": "entrance", "image": "",
+      "caption": { "az": "Kömür rəngli lak qapı · terrazzo tonlu divar kağızı · bürünc təkan lövhəsi", "en": "Charcoal door lacquer · terrazzo-toned wallpaper · brass kick plate", "ru": "Дверь угольного лака · обои в тонах терраццо · латунная защитная планка" }
+    },
+    {
+      "id": "g8", "texture": "g8", "room": "office", "image": "",
+      "caption": { "az": "Dərin yaşıl boya · geniş palıd parket · şotkalanmış bürünc dəstək", "en": "Deep verde paint · wide oak parquet · brushed brass handles", "ru": "Глубокий зелёный · широкая дубовая доска · матовая латунная фурнитура" }
+    }
+  ]
+}
