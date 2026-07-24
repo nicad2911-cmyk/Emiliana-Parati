@@ -12,6 +12,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+<!-- Netlify Identity Widget -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -840,6 +843,17 @@ footer{ background: var(--ink); color: var(--paper); padding: 84px 0 0; }
 </footer>
 
 <script>
+/* Netlify Identity Redirect Logic */
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on("init", user => {
+    if (!user) {
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/";
+      });
+    }
+  });
+}
+
 /* ==============================================================
    CONTENT LOADING
    All text/image content now lives in /content/*.json, edited via
