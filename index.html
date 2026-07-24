@@ -296,17 +296,19 @@ section{ position:relative; }
 .about-visual{ position:sticky; top:120px; }
 .about-visual .frame{
   aspect-ratio: 4/5; border-radius: 4px; overflow:hidden; position:relative;
-  background: linear-gradient(155deg, var(--verde-deep), var(--verde) 60%, #566a55 100%);
+  background-size: cover; background-position: center;
+  background-image: url('uploads/store.jpg');
 }
-.about-visual .frame::after{
+.about-visual .frame::before{
   content:""; position:absolute; inset:0;
-  background-image: repeating-linear-gradient(115deg, rgba(250,248,243,.05) 0 2px, transparent 2px 22px);
+  background: linear-gradient(to top, rgba(20,18,14,0.85) 0%, rgba(20,18,14,0.2) 60%, rgba(20,18,14,0) 100%);
+  z-index: 1;
 }
 .about-visual .frame-caption{
-  position:absolute; left:26px; bottom:26px; right:26px; color: var(--paper);
+  position:absolute; left:26px; bottom:26px; right:26px; color: var(--paper); z-index: 2;
 }
 .about-visual .frame-caption .yr{ font-family: var(--font-display); font-style:italic; font-size:44px; line-height:1; }
-.about-visual .frame-caption .lbl{ font-size:12px; letter-spacing:.1em; text-transform:uppercase; opacity:.75; margin-top:8px; }
+.about-visual .frame-caption .lbl{ font-size:12px; letter-spacing:.1em; text-transform:uppercase; opacity:.85; margin-top:8px; }
 
 .about-copy h2{ margin-bottom:22px; }
 .about-copy p{ color: var(--ink-soft); margin-bottom:18px; max-width:60ch; }
@@ -856,14 +858,11 @@ if (window.netlifyIdentity) {
 
 /* ==============================================================
    CONTENT LOADING
-   All text/image content now lives in /content/*.json, edited via
-   the Decap CMS admin at /admin. This script fetches it at runtime
-   and renders the page.
    ============================================================== */
 const CONTENT_BASE = 'content/';
 
-let dict = { az:{}, en:{}, ru:{} };   // static text dictionaries
-let data = {                          // dynamic collections
+let dict = { az:{}, en:{}, ru:{} };
+let data = {
   hero: { slides: [] },
   products: { items: [] },
   gallery: { items: [] },
@@ -934,12 +933,18 @@ function applyStaticText(lang){
   if(pill) pill.style.transform = `translateX(${idx*34}px)`;
 }
 
-/* ============================= SETTINGS (language independent) ============================= */
+/* ============================= SETTINGS ============================= */
 function applySettings(){
   const s = data.settings || {};
   if(s.logo){
     const logo = document.getElementById('siteLogo');
     if(logo) logo.src = s.logo;
+  }
+  if(s.about_image){
+    const frame = document.querySelector('.about-visual .frame');
+    if(frame) {
+      frame.style.backgroundImage = `url('${s.about_image}')`;
+    }
   }
   if(s.founding_year){
     const a = document.getElementById('foundingYearNum');
@@ -1111,7 +1116,7 @@ document.getElementById('revNext').addEventListener('click', ()=> goToSlide(revI
 document.querySelector('.reviews-band').addEventListener('mouseenter', ()=> clearInterval(revTimer));
 document.querySelector('.reviews-band').addEventListener('mouseleave', resetRevTimer);
 
-/* ============================= FORMS (design preview — no backend) ============================= */
+/* ============================= FORMS ============================= */
 document.getElementById('contactForm').addEventListener('submit', function(e){
   e.preventDefault();
   document.getElementById('formSuccess').classList.add('show');
