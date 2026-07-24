@@ -1,12 +1,44 @@
 {
   "items": [
-    { "id": "b1", "name": "Marchetti Colore", "category": "paint" },
-    { "id": "b2", "name": "Calce Viva", "category": "paint" },
-    { "id": "b3", "name": "Casa Tessuto", "category": "wallpaper" },
-    { "id": "b4", "name": "Botanica Carta", "category": "wallpaper" },
-    { "id": "b5", "name": "Portello Milano", "category": "doors" },
-    { "id": "b6", "name": "Legno & Ferro", "category": "doors" },
-    { "id": "b7", "name": "Rovere Atelier", "category": "parquet" },
-    { "id": "b8", "name": "Tavole del Nord", "category": "parquet" }
+    {
+      "id": "b1",
+      "name": "Decorazza",
+      "category": "paint"
+    },
+    {
+      "id": "b2",
+      "name": "Olsta",
+      "category": "paint"
+    },
+    {
+      "id": "b3",
+      "name": "Swiss Lake",
+      "category": "paint"
+    },
+    {
+      "id": "b4",
+      "name": "Bayramix",
+      "category": "paint"
+    },
+    {
+      "id": "b5",
+      "name": "Daricco",
+      "category": "paint"
+    },
+    {
+      "id": "b6",
+      "name": "Teknos",
+      "category": "paint"
+    },
+    {
+      "id": "b7",
+      "name": "Rovere Atelier",
+      "category": "parquet"
+    },
+    {
+      "id": "b8",
+      "name": "Tavole del Nord",
+      "category": "parquet"
+    }
   ]
 }
