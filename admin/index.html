@@ -1,12 +1,455 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Emiliana Parati — Content Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Site Admin</title>
+<style>
+  :root{
+    --ink:#1c1b19;
+    --paper:#f7f5f0;
+    --line:#dedad0;
+    --accent:#2f5d4f;
+    --accent-soft:#e7efe9;
+    --danger:#a4402f;
+    --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+  }
+  a{color:var(--accent);}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px;}
+  header.top{
+    display:flex;align-items:baseline;justify-content:space-between;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:14px;margin-bottom:28px;flex-wrap:wrap;gap:8px;
+  }
+  header.top h1{
+    font-size:20px;letter-spacing:0.02em;margin:0;font-weight:700;
+  }
+  header.top .meta{font-size:12px;color:#6b6a63;font-family:var(--mono);}
+  .pill-btn{
+    background:transparent;border:1px solid var(--ink);color:var(--ink);
+    padding:6px 12px;font-size:12px;border-radius:999px;cursor:pointer;
+    font-family:var(--mono);
+  }
+  .pill-btn:hover{background:var(--ink);color:var(--paper);}
+
+  .panel{
+    background:#fff;border:1px solid var(--line);border-radius:10px;
+    padding:24px;margin-bottom:20px;
+  }
+  .panel h2{margin:0 0 6px;font-size:15px;text-transform:uppercase;letter-spacing:0.06em;}
+  .panel .sub{font-size:13px;color:#6b6a63;margin-bottom:18px;line-height:1.5;}
+
+  label{display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:#403f3a;}
+  input[type=text], input[type=password]{
+    width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;
+    font-family:var(--mono);font-size:13px;margin-bottom:14px;background:#fdfcfa;
+  }
+  input:focus, textarea:focus, select:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .row{display:flex;gap:14px;flex-wrap:wrap;}
+  .row > div{flex:1;min-width:180px;}
+  button.main{
+    background:var(--accent);color:#fff;border:none;padding:10px 18px;
+    border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;
+  }
+  button.main:hover{opacity:0.9;}
+  button.main:disabled{opacity:0.45;cursor:not-allowed;}
+  button.ghost{
+    background:transparent;border:1px solid var(--line);padding:10px 16px;
+    border-radius:6px;font-size:13px;cursor:pointer;
+  }
+  button.ghost:hover{border-color:var(--ink);}
+  .status{font-size:12.5px;margin-top:10px;font-family:var(--mono);}
+  .status.err{color:var(--danger);}
+  .status.ok{color:var(--accent);}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;gap:20px;}
+  @media (max-width:760px){.layout{grid-template-columns:1fr;}}
+
+  .filelist{list-style:none;margin:0;padding:0;max-height:70vh;overflow:auto;}
+  .filelist li{
+    padding:8px 10px;font-family:var(--mono);font-size:12.5px;
+    border-radius:6px;cursor:pointer;word-break:break-all;
+  }
+  .filelist li:hover{background:var(--accent-soft);}
+  .filelist li.active{background:var(--ink);color:var(--paper);}
+  .filelist .dim{color:#9c9a92;font-size:11px;}
+  .search-box{margin-bottom:10px;}
+
+  textarea{
+    width:100%;min-height:420px;font-family:var(--mono);font-size:13px;
+    padding:14px;border:1px solid var(--line);border-radius:8px;
+    background:#fdfcfa;line-height:1.5;resize:vertical;
+  }
+  .editor-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:10px;}
+  .path-tag{font-family:var(--mono);font-size:13px;background:var(--accent-soft);padding:4px 10px;border-radius:5px;}
+
+  .image-preview{max-width:100%;max-height:340px;border:1px solid var(--line);border-radius:8px;margin-bottom:14px;background:repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 16px 16px;}
+  .empty-state{color:#8a887f;font-size:13px;padding:60px 20px;text-align:center;}
+  .hint{font-size:12px;color:#8a887f;margin-top:6px;}
+  .commit-msg-input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;margin:10px 0;}
+  footer.note{font-size:11.5px;color:#9c9a92;margin-top:30px;line-height:1.6;text-align:center;}
+</style>
 </head>
 <body>
-  <!-- Decap CMS (formerly Netlify CMS) -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Site Admin</h1>
+    <div class="meta" id="repoMeta">not connected</div>
+  </header>
+
+  <!-- SETUP / LOGIN -->
+  <section class="panel" id="loginPanel">
+    <h2>Connect to your repository</h2>
+    <div class="sub">
+      This panel edits your site's files directly through GitHub's API and commits changes to your repo.
+      GitHub Pages then rebuilds automatically (usually within a minute). Nothing is stored anywhere except
+      your own browser — the token below is kept only in this browser's local storage and is never written to the repo.
+    </div>
+    <div class="row">
+      <div>
+        <label for="owner">Repository owner</label>
+        <input type="text" id="owner" placeholder="nicad2911-cmyk" value="nicad2911-cmyk">
+      </div>
+      <div>
+        <label for="repo">Repository name</label>
+        <input type="text" id="repo" placeholder="Emiliana-Parati" value="Emiliana-Parati">
+      </div>
+      <div>
+        <label for="branch">Branch</label>
+        <input type="text" id="branch" placeholder="main" value="main">
+      </div>
+    </div>
+    <label for="token">Personal access token (fine-grained, "Contents: Read and write" on this repo only)</label>
+    <input type="password" id="token" placeholder="github_pat_...">
+    <div class="hint">
+      Create one at GitHub → Settings → Developer settings → Fine-grained tokens → generate one scoped
+      to just this repository, permission "Contents: Read and write". Do not reuse a token with broader access.
+    </div>
+    <div style="margin-top:16px;">
+      <button class="main" id="connectBtn">Connect</button>
+    </div>
+    <div class="status" id="loginStatus"></div>
+  </section>
+
+  <!-- MAIN WORKSPACE (hidden until connected) -->
+  <div id="workspace" style="display:none;">
+    <div class="layout">
+      <div class="panel" style="padding:16px;">
+        <h2 style="margin-bottom:10px;">Files</h2>
+        <input type="text" id="fileSearch" class="search-box" placeholder="Filter files…" style="width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;">
+        <ul class="filelist" id="fileList"></ul>
+      </div>
+
+      <div class="panel" id="editorPanel">
+        <div class="empty-state" id="emptyState">Select a file on the left to edit its text, or replace an image.</div>
+
+        <div id="textEditor" style="display:none;">
+          <div class="editor-head">
+            <span class="path-tag" id="currentPathText"></span>
+            <div>
+              <button class="ghost" id="reloadBtn">Reload</button>
+              <button class="main" id="saveTextBtn">Save &amp; publish</button>
+            </div>
+          </div>
+          <textarea id="fileContent" spellcheck="false"></textarea>
+          <input type="text" class="commit-msg-input" id="commitMsgText" placeholder="Commit message (optional)">
+          <div class="status" id="textStatus"></div>
+        </div>
+
+        <div id="imageEditor" style="display:none;">
+          <div class="editor-head">
+            <span class="path-tag" id="currentPathImage"></span>
+          </div>
+          <img id="imgPreview" class="image-preview" alt="preview">
+          <div>
+            <label>Replace this image</label>
+            <input type="file" id="imgFileInput" accept="image/*">
+          </div>
+          <input type="text" class="commit-msg-input" id="commitMsgImg" placeholder="Commit message (optional)">
+          <button class="main" id="saveImgBtn" disabled>Save &amp; publish</button>
+          <div class="status" id="imgStatus"></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;">
+      <button class="pill-btn" id="disconnectBtn">Disconnect</button>
+    </div>
+  </div>
+
+  <footer class="note">
+    Runs entirely in your browser via the GitHub API. Free to host on GitHub Pages — subject to GitHub's
+    own fair-use limits (API requests, bandwidth, build frequency), not any limit added by this tool.
+  </footer>
+</div>
+
+<script>
+(function(){
+  const EDITABLE_TEXT_EXT = ['html','htm','css','js','json','md','txt','svg','xml'];
+  const IMAGE_EXT = ['png','jpg','jpeg','gif','webp','avif','ico'];
+  const LS_KEY = 'site_admin_creds_v1';
+
+  let state = { owner:'', repo:'', branch:'main', token:'', files:[], currentPath:null, currentSha:null, currentType:null };
+
+  const $ = id => document.getElementById(id);
+
+  function ext(path){
+    const parts = path.split('.');
+    return parts.length > 1 ? parts.pop().toLowerCase() : '';
+  }
+
+  function ghHeaders(){
+    return {
+      'Authorization': 'Bearer ' + state.token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    };
+  }
+
+  async function ghFetch(url, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({}, ghHeaders(), opts.headers || {});
+    const res = await fetch(url, opts);
+    if (!res.ok){
+      let msg = res.status + ' ' + res.statusText;
+      try { const j = await res.json(); if (j.message) msg += ' — ' + j.message; } catch(e){}
+      throw new Error(msg);
+    }
+    return res.json();
+  }
+
+  function b64EncodeUnicode(str){
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+  function b64DecodeUnicode(str){
+    return decodeURIComponent(escape(atob(str)));
+  }
+
+  // ---------- CONNECT ----------
+  $('connectBtn').addEventListener('click', async () => {
+    const owner = $('owner').value.trim();
+    const repo = $('repo').value.trim();
+    const branch = $('branch').value.trim() || 'main';
+    const token = $('token').value.trim();
+    const statusEl = $('loginStatus');
+    statusEl.textContent = '';
+    statusEl.className = 'status';
+
+    if (!owner || !repo || !token){
+      statusEl.textContent = 'Please fill in owner, repo, and token.';
+      statusEl.className = 'status err';
+      return;
+    }
+
+    $('connectBtn').disabled = true;
+    statusEl.textContent = 'Connecting…';
+
+    try {
+      const treeData = await ghFetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${encodeURIComponent(branch)}?recursive=1`);
+      state.owner = owner; state.repo = repo; state.branch = branch; state.token = token;
+      state.files = (treeData.tree || []).filter(item => item.type === 'blob');
+
+      localStorage.setItem(LS_KEY, JSON.stringify({owner, repo, branch, token}));
+
+      $('repoMeta').textContent = `${owner}/${repo} @ ${branch}`;
+      $('loginPanel').style.display = 'none';
+      $('workspace').style.display = 'block';
+      renderFileList();
+      statusEl.textContent = '';
+    } catch(err){
+      statusEl.textContent = 'Could not connect: ' + err.message;
+      statusEl.className = 'status err';
+    } finally {
+      $('connectBtn').disabled = false;
+    }
+  });
+
+  $('disconnectBtn').addEventListener('click', () => {
+    localStorage.removeItem(LS_KEY);
+    location.reload();
+  });
+
+  (function tryRestore(){
+    try {
+      const saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+      if (saved && saved.token){
+        $('owner').value = saved.owner;
+        $('repo').value = saved.repo;
+        $('branch').value = saved.branch;
+        $('token').value = saved.token;
+        $('connectBtn').click();
+      }
+    } catch(e){}
+  })();
+
+  // ---------- FILE LIST ----------
+  function renderFileList(filterText){
+    const list = $('fileList');
+    list.innerHTML = '';
+    const filter = (filterText || '').toLowerCase();
+
+    const relevant = state.files.filter(f => {
+      const e = ext(f.path);
+      return EDITABLE_TEXT_EXT.includes(e) || IMAGE_EXT.includes(e);
+    }).filter(f => !filter || f.path.toLowerCase().includes(filter))
+      .sort((a,b) => a.path.localeCompare(b.path));
+
+    if (relevant.length === 0){
+      const li = document.createElement('li');
+      li.textContent = 'No matching editable files found.';
+      li.className = 'dim';
+      list.appendChild(li);
+      return;
+    }
+
+    relevant.forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f.path;
+      li.dataset.path = f.path;
+      li.dataset.sha = f.sha;
+      if (f.path === state.currentPath) li.classList.add('active');
+      li.addEventListener('click', () => openFile(f.path, f.sha));
+      list.appendChild(li);
+    });
+  }
+
+  $('fileSearch').addEventListener('input', e => renderFileList(e.target.value));
+
+  // ---------- OPEN FILE ----------
+  async function openFile(path, sha){
+    state.currentPath = path;
+    state.currentSha = sha;
+    const e = ext(path);
+    renderFileList($('fileSearch').value);
+
+    $('emptyState').style.display = 'none';
+
+    if (IMAGE_EXT.includes(e)){
+      state.currentType = 'image';
+      $('textEditor').style.display = 'none';
+      $('imageEditor').style.display = 'block';
+      $('currentPathImage').textContent = path;
+      $('imgStatus').textContent = '';
+      $('saveImgBtn').disabled = true;
+      $('imgFileInput').value = '';
+
+      const rawUrl = `https://raw.githubusercontent.com/${state.owner}/${state.repo}/${state.branch}/${path}`;
+      $('imgPreview').src = rawUrl + '?t=' + Date.now();
+    } else {
+      state.currentType = 'text';
+      $('imageEditor').style.display = 'none';
+      $('textEditor').style.display = 'block';
+      $('currentPathText').textContent = path;
+      $('textStatus').textContent = 'Loading…';
+      $('fileContent').value = '';
+
+      try {
+        const data = await ghFetch(`https://api.github.com/repos/${state.owner}/${state.repo}/contents/${encodeURIComponent(path)}?ref=${state.branch}`);
+        state.currentSha = data.sha;
+        $('fileContent').value = b64DecodeUnicode(data.content.replace(/\n/g,''));
+        $('textStatus').textContent = '';
+      } catch(err){
+        $('textStatus').textContent = 'Failed to load: ' + err.message;
+        $('textStatus').className = 'status err';
+      }
+    }
+  }
+
+  $('reloadBtn').addEventListener('click', () => {
+    if (state.currentPath) openFile(state.currentPath, state.currentSha);
+  });
+
+  // ---------- SAVE TEXT ----------
+  $('saveTextBtn').addEventListener('click', async () => {
+    const statusEl = $('textStatus');
+    statusEl.className = 'status';
+    statusEl.textContent = 'Saving…';
+    $('saveTextBtn').disabled = true;
+
+    try {
+      const content = $('fileContent').value;
+      const msg = $('commitMsgText').value.trim() || `Update ${state.currentPath} via admin panel`;
+
+      const body = {
+        message: msg,
+        content: b64EncodeUnicode(content),
+        sha: state.currentSha,
+        branch: state.branch
+      };
+
+      const res = await ghFetch(`https://api.github.com/repos/${state.owner}/${state.repo}/contents/${encodeURIComponent(state.currentPath)}`, {
+        method: 'PUT',
+        body: JSON.stringify(body)
+      });
+
+      state.currentSha = res.content.sha;
+      statusEl.textContent = 'Saved and published. GitHub Pages will rebuild shortly.';
+      statusEl.className = 'status ok';
+    } catch(err){
+      statusEl.textContent = 'Save failed: ' + err.message;
+      statusEl.className = 'status err';
+    } finally {
+      $('saveTextBtn').disabled = false;
+    }
+  });
+
+  // ---------- SAVE IMAGE ----------
+  let pendingImageB64 = null;
+  $('imgFileInput').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result;
+      pendingImageB64 = result.split(',')[1];
+      $('imgPreview').src = result;
+      $('saveImgBtn').disabled = false;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  $('saveImgBtn').addEventListener('click', async () => {
+    if (!pendingImageB64) return;
+    const statusEl = $('imgStatus');
+    statusEl.className = 'status';
+    statusEl.textContent = 'Uploading…';
+    $('saveImgBtn').disabled = true;
+
+    try {
+      const msg = $('commitMsgImg').value.trim() || `Update ${state.currentPath} via admin panel`;
+      const body = {
+        message: msg,
+        content: pendingImageB64,
+        sha: state.currentSha,
+        branch: state.branch
+      };
+      const res = await ghFetch(`https://api.github.com/repos/${state.owner}/${state.repo}/contents/${encodeURIComponent(state.currentPath)}`, {
+        method: 'PUT',
+        body: JSON.stringify(body)
+      });
+      state.currentSha = res.content.sha;
+      statusEl.textContent = 'Image updated and published. GitHub Pages will rebuild shortly.';
+      statusEl.className = 'status ok';
+      pendingImageB64 = null;
+    } catch(err){
+      statusEl.textContent = 'Save failed: ' + err.message;
+      statusEl.className = 'status err';
+      $('saveImgBtn').disabled = false;
+    }
+  });
+
+})();
+</script>
+
 </body>
 </html>
