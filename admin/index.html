@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Site Admin</title>
+<title>Site Admin — Emiliana Parati</title>
 <style>
   :root{
     --ink:#1c1b19;
@@ -72,7 +72,7 @@
   .status.err{color:var(--danger);}
   .status.ok{color:var(--accent);}
 
-  .layout{display:grid;grid-template-columns:260px 1fr;gap:20px;}
+  .layout{display:grid;grid-template-columns:280px 1fr;gap:20px;}
   @media (max-width:760px){.layout{grid-template-columns:1fr;}}
 
   .filelist{list-style:none;margin:0;padding:0;max-height:70vh;overflow:auto;}
@@ -93,7 +93,7 @@
   .editor-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:10px;}
   .path-tag{font-family:var(--mono);font-size:13px;background:var(--accent-soft);padding:4px 10px;border-radius:5px;}
 
-  .image-preview{max-width:100%;max-height:340px;border:1px solid var(--line);border-radius:8px;margin-bottom:14px;background:repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 16px 16px;}
+  .image-preview{max-width:100%;max-height:340px;border:1px solid var(--line);border-radius:8px;margin-bottom:14px;background:repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 16px 16px;object-fit:contain;}
   .empty-state{color:#8a887f;font-size:13px;padding:60px 20px;text-align:center;}
   .hint{font-size:12px;color:#8a887f;margin-top:6px;}
   .commit-msg-input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;margin:10px 0;}
@@ -108,13 +108,11 @@
     <div class="meta" id="repoMeta">not connected</div>
   </header>
 
-  <!-- SETUP / LOGIN -->
+  <!-- LOGIN -->
   <section class="panel" id="loginPanel">
-    <h2>Connect to your repository</h2>
+    <h2>Connect to Repository</h2>
     <div class="sub">
-      This panel edits your site's files directly through GitHub's API and commits changes to your repo.
-      GitHub Pages then rebuilds automatically (usually within a minute). Nothing is stored anywhere except
-      your own browser — the token below is kept only in this browser's local storage and is never written to the repo.
+      Enter your repository settings and GitHub Personal Access Token below to connect directly to GitHub.
     </div>
     <div class="row">
       <div>
@@ -130,11 +128,10 @@
         <input type="text" id="branch" placeholder="main" value="main">
       </div>
     </div>
-    <label for="token">Personal access token (fine-grained, "Contents: Read and write" on this repo only)</label>
-    <input type="password" id="token" placeholder="github_pat_...">
+    <label for="token">Personal Access Token (PAT / Classic Token)</label>
+    <input type="password" id="token" placeholder="github_pat_... or ghp_...">
     <div class="hint">
-      Create one at GitHub → Settings → Developer settings → Fine-grained tokens → generate one scoped
-      to just this repository, permission "Contents: Read and write". Do not reuse a token with broader access.
+      Ensure the token has "Contents: Read and write" (Fine-grained) or "repo" scope (Classic).
     </div>
     <div style="margin-top:16px;">
       <button class="main" id="connectBtn">Connect</button>
@@ -142,7 +139,7 @@
     <div class="status" id="loginStatus"></div>
   </section>
 
-  <!-- MAIN WORKSPACE (hidden until connected) -->
+  <!-- WORKSPACE -->
   <div id="workspace" style="display:none;">
     <div class="layout">
       <div class="panel" style="padding:16px;">
@@ -152,14 +149,15 @@
       </div>
 
       <div class="panel" id="editorPanel">
-        <div class="empty-state" id="emptyState">Select a file on the left to edit its text, or replace an image.</div>
+        <div class="empty-state" id="emptyState">Select a file on the left to edit or manage images.</div>
 
+        <!-- TEXT EDITOR -->
         <div id="textEditor" style="display:none;">
           <div class="editor-head">
             <span class="path-tag" id="currentPathText"></span>
             <div>
               <button class="ghost" id="reloadBtn">Reload</button>
-              <button class="main" id="saveTextBtn">Save &amp; publish</button>
+              <button class="main" id="saveTextBtn">Save &amp; Publish</button>
             </div>
           </div>
           <textarea id="fileContent" spellcheck="false"></textarea>
@@ -167,17 +165,18 @@
           <div class="status" id="textStatus"></div>
         </div>
 
+        <!-- IMAGE EDITOR -->
         <div id="imageEditor" style="display:none;">
           <div class="editor-head">
             <span class="path-tag" id="currentPathImage"></span>
           </div>
           <img id="imgPreview" class="image-preview" alt="preview">
-          <div>
-            <label>Replace this image</label>
+          <div style="margin-top:10px;">
+            <label>Upload / Replace Image</label>
             <input type="file" id="imgFileInput" accept="image/*">
           </div>
           <input type="text" class="commit-msg-input" id="commitMsgImg" placeholder="Commit message (optional)">
-          <button class="main" id="saveImgBtn" disabled>Save &amp; publish</button>
+          <button class="main" id="saveImgBtn" disabled style="margin-top:10px;">Save &amp; Publish Image</button>
           <div class="status" id="imgStatus"></div>
         </div>
       </div>
@@ -188,14 +187,13 @@
   </div>
 
   <footer class="note">
-    Runs entirely in your browser via the GitHub API. Free to host on GitHub Pages — subject to GitHub's
-    own fair-use limits (API requests, bandwidth, build frequency), not any limit added by this tool.
+    Direct GitHub Pages Management Tool
   </footer>
 </div>
 
 <script>
 (function(){
-  const EDITABLE_TEXT_EXT = ['html','htm','css','js','json','md','txt','svg','xml'];
+  const EDITABLE_TEXT_EXT = ['html','htm','css','js','json','md','txt','svg','xml','yml','yaml'];
   const IMAGE_EXT = ['png','jpg','jpeg','gif','webp','avif','ico'];
   const LS_KEY = 'site_admin_creds_v1';
 
@@ -228,14 +226,20 @@
     return res.json();
   }
 
-  function b64EncodeUnicode(str){
-    return btoa(unescape(encodeURIComponent(str)));
-  }
-  function b64DecodeUnicode(str){
-    return decodeURIComponent(escape(atob(str)));
+  // Proper UTF-8 Base64 Helpers
+  function utf8_to_b64(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+      return String.fromCharCode('0x' + p1);
+    }));
   }
 
-  // ---------- CONNECT ----------
+  function b64_to_utf8(str) {
+    return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  }
+
+  // CONNECT
   $('connectBtn').addEventListener('click', async () => {
     const owner = $('owner').value.trim();
     const repo = $('repo').value.trim();
@@ -255,7 +259,6 @@
     statusEl.textContent = 'Connecting…';
 
     try {
-      // verify access by fetching the tree
       const treeData = await ghFetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${encodeURIComponent(branch)}?recursive=1`);
       state.owner = owner; state.repo = repo; state.branch = branch; state.token = token;
       state.files = (treeData.tree || []).filter(item => item.type === 'blob');
@@ -280,7 +283,6 @@
     location.reload();
   });
 
-  // restore saved session
   (function tryRestore(){
     try {
       const saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
@@ -294,7 +296,7 @@
     } catch(e){}
   })();
 
-  // ---------- FILE LIST ----------
+  // FILE LIST
   function renderFileList(filterText){
     const list = $('fileList');
     list.innerHTML = '';
@@ -308,7 +310,7 @@
 
     if (relevant.length === 0){
       const li = document.createElement('li');
-      li.textContent = 'No matching editable files found.';
+      li.textContent = 'No matching files found.';
       li.className = 'dim';
       list.appendChild(li);
       return;
@@ -327,7 +329,7 @@
 
   $('fileSearch').addEventListener('input', e => renderFileList(e.target.value));
 
-  // ---------- OPEN FILE ----------
+  // OPEN FILE
   async function openFile(path, sha){
     state.currentPath = path;
     state.currentSha = sha;
@@ -358,7 +360,7 @@
       try {
         const data = await ghFetch(`https://api.github.com/repos/${state.owner}/${state.repo}/contents/${encodeURIComponent(path)}?ref=${state.branch}`);
         state.currentSha = data.sha;
-        $('fileContent').value = b64DecodeUnicode(data.content.replace(/\n/g,''));
+        $('fileContent').value = b64_to_utf8(data.content.replace(/\n/g,''));
         $('textStatus').textContent = '';
       } catch(err){
         $('textStatus').textContent = 'Failed to load: ' + err.message;
@@ -371,7 +373,7 @@
     if (state.currentPath) openFile(state.currentPath, state.currentSha);
   });
 
-  // ---------- SAVE TEXT ----------
+  // SAVE TEXT
   $('saveTextBtn').addEventListener('click', async () => {
     const statusEl = $('textStatus');
     statusEl.className = 'status';
@@ -384,7 +386,7 @@
 
       const body = {
         message: msg,
-        content: b64EncodeUnicode(content),
+        content: utf8_to_b64(content),
         sha: state.currentSha,
         branch: state.branch
       };
@@ -395,7 +397,7 @@
       });
 
       state.currentSha = res.content.sha;
-      statusEl.textContent = 'Saved and published. GitHub Pages will rebuild shortly.';
+      statusEl.textContent = 'Saved! Changes will go live on GitHub Pages in ~1 min.';
       statusEl.className = 'status ok';
     } catch(err){
       statusEl.textContent = 'Save failed: ' + err.message;
@@ -405,14 +407,14 @@
     }
   });
 
-  // ---------- SAVE IMAGE ----------
+  // SAVE IMAGE
   let pendingImageB64 = null;
   $('imgFileInput').addEventListener('change', e => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      const result = reader.result; // data:...;base64,XXXX
+      const result = reader.result;
       pendingImageB64 = result.split(',')[1];
       $('imgPreview').src = result;
       $('saveImgBtn').disabled = false;
@@ -440,7 +442,7 @@
         body: JSON.stringify(body)
       });
       state.currentSha = res.content.sha;
-      statusEl.textContent = 'Image updated and published. GitHub Pages will rebuild shortly.';
+      statusEl.textContent = 'Image updated! GitHub Pages will rebuild shortly.';
       statusEl.className = 'status ok';
       pendingImageB64 = null;
     } catch(err){
