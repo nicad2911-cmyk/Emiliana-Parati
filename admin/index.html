@@ -255,6 +255,7 @@
     statusEl.textContent = 'Connecting…';
 
     try {
+      // verify access by fetching the tree
       const treeData = await ghFetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${encodeURIComponent(branch)}?recursive=1`);
       state.owner = owner; state.repo = repo; state.branch = branch; state.token = token;
       state.files = (treeData.tree || []).filter(item => item.type === 'blob');
@@ -279,6 +280,7 @@
     location.reload();
   });
 
+  // restore saved session
   (function tryRestore(){
     try {
       const saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
@@ -410,7 +412,7 @@
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      const result = reader.result;
+      const result = reader.result; // data:...;base64,XXXX
       pendingImageB64 = result.split(',')[1];
       $('imgPreview').src = result;
       $('saveImgBtn').disabled = false;
