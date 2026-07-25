@@ -3,7 +3,6 @@ backend:
   repo: nicad2911-cmyk/Emiliana-Parati
   branch: main
 
-# Относительные пути БЕЗ начального слэша (чтобы картинки работали на GitHub Pages)
 media_folder: "uploads"
 public_folder: "uploads"
 
@@ -14,7 +13,7 @@ locale: "en"
 
 collections:
   # ------------------------------------------------------------------
-  # 1) SITE TEXTS — one file per language, all static labels/headlines
+  # 1) SITE TEXTS — one file per language
   # ------------------------------------------------------------------
   - name: "site_texts"
     label: "Site Texts (AZ / EN / RU)"
@@ -33,11 +32,11 @@ collections:
           - { label: "Nav — Button (CTA)", name: "nav_cta", widget: "string" }
 
           - { label: "Hero — Eyebrow label", name: "hero_eyebrow", widget: "string" }
-          - { label: "Hero — Headline (HTML allowed, e.g. <em>word</em>)", name: "hero_headline", widget: "string" }
+          - { label: "Hero — Headline (HTML allowed)", name: "hero_headline", widget: "string" }
           - { label: "Hero — Subtext", name: "hero_sub", widget: "text" }
           - { label: "Hero — Primary button", name: "hero_cta_primary", widget: "string" }
           - { label: "Hero — Secondary button", name: "hero_cta_secondary", widget: "string" }
-          - { label: "Hero — 'Since' line (HTML allowed, <br> for line break)", name: "hero_since", widget: "text" }
+          - { label: "Hero — 'Since' line", name: "hero_since", widget: "text" }
           - { label: "Hero — Offer row label", name: "hero_offer_label", widget: "string" }
 
           - { label: "About — Eyebrow", name: "about_eyebrow", widget: "string" }
@@ -139,7 +138,7 @@ collections:
         label: "Hero Images"
         name: "hero_images"
         fields:
-          - label: "Slides (shown in rotation, ~4s each)"
+          - label: "Slides"
             name: "slides"
             widget: "list"
             field: { label: "Image", name: "image", widget: "image" }
@@ -161,8 +160,8 @@ collections:
             fields:
               - { label: "ID (do not change)", name: "id", widget: "string" }
               - { label: "Image", name: "image", widget: "image", required: false }
-              - { label: "Texture style (paint / wallpaper / doors / parquet)", name: "texture", widget: "select", options: ["paint", "wallpaper", "doors", "parquet"] }
-              - label: "Index label (e.g. '01 — PAINT')"
+              - { label: "Texture style", name: "texture", widget: "select", options: ["paint", "wallpaper", "doors", "parquet"] }
+              - label: "Index label"
                 name: "index"
                 widget: "object"
                 fields:
@@ -200,9 +199,9 @@ collections:
             summary: "{{fields.room}} — {{fields.id}}"
             fields:
               - { label: "ID (do not change)", name: "id", widget: "string" }
-              - { label: "Texture style (fallback if no photo uploaded)", name: "texture", widget: "select", options: ["g1","g2","g3","g4","g5","g6","g7","g8"] }
+              - { label: "Texture style", name: "texture", widget: "select", options: ["g1","g2","g3","g4","g5","g6","g7","g8"] }
               - { label: "Room", name: "room", widget: "select", options: ["living", "bedroom", "entrance", "office"] }
-              - { label: "Photo (optional — leave empty to use the texture style above)", name: "image", widget: "image", required: false }
+              - { label: "Photo", name: "image", widget: "image", required: false }
               - label: "Caption"
                 name: "caption"
                 widget: "object"
@@ -234,7 +233,7 @@ collections:
                   - { label: "AZ", name: "az", widget: "text" }
                   - { label: "EN", name: "en", widget: "text" }
                   - { label: "RU", name: "ru", widget: "text" }
-              - label: "Author line (e.g. 'Name — Role')"
+              - label: "Author line"
                 name: "author"
                 widget: "object"
                 fields:
@@ -262,7 +261,7 @@ collections:
               - { label: "Category", name: "category", widget: "select", options: ["paint", "wallpaper", "doors", "parquet"] }
 
   # ------------------------------------------------------------------
-  # 7) SITE SETTINGS (contact info, stats, logo)
+  # 7) SITE SETTINGS
   # ------------------------------------------------------------------
   - name: "settings"
     label: "Site Settings"
