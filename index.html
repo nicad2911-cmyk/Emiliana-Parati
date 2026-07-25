@@ -297,7 +297,6 @@ section{ position:relative; }
 .about-visual .frame{
   aspect-ratio: 4/5; border-radius: 4px; overflow:hidden; position:relative;
   background-size: cover; background-position: center;
-  background-image: url('uploads/Gemini_Generated_Image_bu51ddbu51ddbu51-clean.png');
 }
 .about-visual .frame::before{
   content:""; position:absolute; inset:0;
@@ -330,22 +329,6 @@ section{ position:relative; }
 }
 .p-card:hover{ transform: translateY(-8px); box-shadow: 0 30px 50px -20px rgba(31,28,23,.4); }
 .p-texture{ position:absolute; inset:0; background-size:cover; background-position:center; }
-.p-texture.tex-paint{ 
-  background-image: url('uploads/ChatGPT Image Jul 24, 2026, 06_15_49 PM.png'); 
-  background-size: cover; 
-  background-position: center; 
-}
-.p-texture.tex-wallpaper{
-  background-color:#E7DEC9;
-  background-image: radial-gradient(circle at 9px 9px, rgba(139,85,70,.5) 2px, transparent 2.4px), radial-gradient(circle at 20px 20px, rgba(169,121,59,.35) 1.6px, transparent 2px);
-  background-size: 30px 30px, 30px 30px;
-}
-.p-texture.tex-doors{ background: repeating-linear-gradient(95deg, #5C3623 0px 4px, #6E4430 4px 9px, #4E2D1D 9px 11px, #7C4E36 11px 17px); }
-.p-texture.tex-parquet{
-  background-image: url('uploads/Gemini_Generated_Image_vignrgvignrgvign-clean.png');
-  background-size: cover;
-  background-position: center;
-}
 .p-card::before{
   content:""; position:absolute; inset:0;
   background: linear-gradient(to top, rgba(20,18,14,.88) 0%, rgba(20,18,14,.42) 46%, rgba(20,18,14,0) 72%);
@@ -423,15 +406,6 @@ section{ position:relative; }
 .g-cap{ position:absolute; left:20px; right:20px; bottom:18px; z-index:2; color: var(--paper); }
 .g-cap .room{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color: var(--brass-light); margin-bottom:6px; font-weight:700; }
 .g-cap p{ font-size:13.5px; line-height:1.45; opacity:.92; }
-
-.g-tex.tex-g1{ background: linear-gradient(135deg, var(--verde), var(--verde-deep) 70%); }
-.g-tex.tex-g2{ background-color:#E9E0CB; background-image: radial-gradient(circle at 9px 9px, rgba(139,85,70,.45) 2px, transparent 2.4px); background-size:26px 26px; }
-.g-tex.tex-g3{ background: repeating-linear-gradient(45deg, #5C3623 0 3px, #6E4430 3px 8px, #4E2D1D 8px 10px), linear-gradient(#5C3623,#5C3623); }
-.g-tex.tex-g4{ background-color:#D8C6A8; background-image: radial-gradient(circle at 10px 10px, rgba(60,74,59,.4) 2px, transparent 2.4px); background-size:24px 24px; }
-.g-tex.tex-g5{ background: radial-gradient(circle at 30% 20%, #A85F63, #8B5546 60%, #5c372c); }
-.g-tex.tex-g6{ background-color:#EFE7D6; background-image: radial-gradient(circle at 9px 9px, rgba(169,121,59,.4) 1.8px, transparent 2.2px), radial-gradient(circle at 19px 19px, rgba(31,28,23,.15) 1.4px, transparent 1.8px); background-size:28px 28px; }
-.g-tex.tex-g7{ background: repeating-linear-gradient(95deg, #2b2723 0 4px, #3a352c 4px 9px); }
-.g-tex.tex-g8{ background: radial-gradient(circle at 32% 28%, #6C7C67, var(--verde) 55%, var(--verde-deep) 100%); }
 
 /* ============================= REVIEWS ============================= */
 .reviews-band{ background: var(--ink); color: var(--paper); overflow:hidden; }
@@ -859,6 +833,22 @@ if (window.netlifyIdentity) {
   });
 }
 
+/* Helper to fix relative URLs for GitHub Pages */
+function fixUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  
+  // Clean up leading slash
+  let cleanUrl = url.startsWith('/') ? url.slice(1) : url;
+  
+  // If running on github.io with subpath, append repository path if not present
+  const pathname = window.location.pathname;
+  if (pathname.includes('/Emiliana-Parati/') && !cleanUrl.startsWith('Emiliana-Parati/')) {
+    return '/Emiliana-Parati/' + cleanUrl;
+  }
+  return '/' + cleanUrl;
+}
+
 /* ==============================================================
    CONTENT LOADING
    ============================================================== */
@@ -941,12 +931,12 @@ function applySettings(){
   const s = data.settings || {};
   if(s.logo){
     const logo = document.getElementById('siteLogo');
-    if(logo) logo.src = s.logo;
+    if(logo) logo.src = fixUrl(s.logo);
   }
   if(s.about_image){
     const frame = document.querySelector('.about-visual .frame');
     if(frame) {
-      frame.style.backgroundImage = `url('${s.about_image}')`;
+      frame.style.backgroundImage = `url('${fixUrl(s.about_image)}')`;
     }
   }
   if(s.founding_year){
@@ -973,9 +963,11 @@ const arrowSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 function renderProducts(lang){
   const grid = document.getElementById('productsGrid');
   if(!grid) return;
-  grid.innerHTML = data.products.items.map(p => `
+  grid.innerHTML = data.products.items.map(p => {
+    const bgStyle = p.image ? `style="background-image:url('${fixUrl(p.image)}')"` : '';
+    return `
     <article class="p-card">
-      <div class="p-texture tex-${p.texture}" ${p.image ? `style="background-image:url('${p.image}')"` : ''}></div>
+      <div class="p-texture tex-${p.texture}" ${bgStyle}></div>
       <div class="p-peel"></div>
       <div class="p-body">
         <span class="p-index">${(p.index && p.index[lang]) || ''}</span>
@@ -984,22 +976,26 @@ function renderProducts(lang){
         <a href="#contact" class="p-link"><span>${(p.cta && p.cta[lang]) || ''}</span>${arrowSVG}</a>
       </div>
     </article>
-  `).join('');
+  `;
+  }).join('');
 }
 
 /* ============================= GALLERY ============================= */
 function renderGallery(lang){
   const grid = document.getElementById('galleryGrid');
   if(!grid) return;
-  grid.innerHTML = data.gallery.items.map(g => `
+  grid.innerHTML = data.gallery.items.map(g => {
+    const bgStyle = g.image ? `style="background-image:url('${fixUrl(g.image)}')"` : '';
+    return `
     <div class="g-tile ${g.texture} ${currentFilter !== 'all' && g.room !== currentFilter ? 'hide' : ''}" data-room="${g.room}">
-      <div class="g-tex tex-${g.texture}" ${g.image ? `style="background-image:url('${g.image}')"` : ''}></div>
+      <div class="g-tex tex-${g.texture}" ${bgStyle}></div>
       <div class="g-cap">
         <div class="room">${(dict[lang] && dict[lang]['filter_' + g.room]) || ''}</div>
         <p>${(g.caption && g.caption[lang]) || ''}</p>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 /* ============================= BRANDS ============================= */
@@ -1056,7 +1052,7 @@ function renderHero(){
   const wrap = document.getElementById('heroSlideshow');
   if(!wrap) return;
   wrap.innerHTML = (data.hero.slides || []).map(url =>
-    `<div class="slide" style="background-image:url('${url}');"></div>`
+    `<div class="slide" style="background-image:url('${fixUrl(url)}');"></div>`
   ).join('');
 }
 
