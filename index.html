@@ -12,9 +12,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Netlify Identity Widget -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -495,7 +492,7 @@ footer{ background: var(--ink); color: var(--paper); padding: 84px 0 0; }
   .nav-links, .nav-cta{ display:none; }
   .menu-toggle{ display:flex; }
   .nav.menu-open .nav-links{
-    display:flex; flex-direction:column; position:fixed; inset:0; top:0; background:var(--plaster);
+    display:flex; flex-direction:column; position-fixed; inset:0; top:0; background:var(--plaster);
     padding: 110px 32px 40px; gap:26px; z-index:60;
   }
   .nav.menu-open .nav-links a{ font-size:22px; font-family:var(--font-display); }
@@ -822,31 +819,18 @@ footer{ background: var(--ink); color: var(--paper); padding: 84px 0 0; }
 </footer>
 
 <script>
-/* Netlify Identity Redirect Logic */
-if (window.netlifyIdentity) {
-  window.netlifyIdentity.on("init", user => {
-    if (!user) {
-      window.netlifyIdentity.on("login", () => {
-        document.location.href = "/admin/";
-      });
-    }
-  });
-}
-
 /* Helper to fix relative URLs for GitHub Pages */
 function fixUrl(url) {
   if (!url) return '';
-  if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  
-  // Clean up leading slash
-  let cleanUrl = url.startsWith('/') ? url.slice(1) : url;
-  
-  // If running on github.io with subpath, append repository path if not present
-  const pathname = window.location.pathname;
-  if (pathname.includes('/Emiliana-Parati/') && !cleanUrl.startsWith('Emiliana-Parati/')) {
-    return '/Emiliana-Parati/' + cleanUrl;
+  if (typeof url === 'object') {
+    url = url.image || url.url || '';
   }
-  return '/' + cleanUrl;
+  if (!url || url.startsWith('http://') || url.startsWith('https://')) return url;
+  
+  // Clean up leading slashes / and ./
+  let cleanUrl = url.replace(/^\.?\//, '');
+  
+  return './' + cleanUrl;
 }
 
 /* ==============================================================
