@@ -1,17 +1,14 @@
-media_folder: "uploads"
-public_folder: "uploads"
 backend:
-  name: git-gateway
+  name: github
+  repo: nicad2911-cmyk/Emiliana-Parati
   branch: main
 
-# Enables drag-and-drop / browse uploads. Files land in /uploads and are
-# referenced with a relative path, e.g. "uploads/living-room-1.jpg"
+# Относительные пути БЕЗ начального слэша (чтобы картинки работали на GitHub Pages)
 media_folder: "uploads"
-public_folder: "/uploads"
+public_folder: "uploads"
 
-# Shown at the top of the admin UI
-site_url: https://your-site-name.netlify.app
-logo_url: /uploads/logo.png
+site_url: https://nicad2911-cmyk.github.io/Emiliana-Parati
+logo_url: uploads/logo.png
 
 locale: "en"
 
@@ -163,6 +160,7 @@ collections:
             summary: "{{fields.id}}"
             fields:
               - { label: "ID (do not change)", name: "id", widget: "string" }
+              - { label: "Image", name: "image", widget: "image", required: false }
               - { label: "Texture style (paint / wallpaper / doors / parquet)", name: "texture", widget: "select", options: ["paint", "wallpaper", "doors", "parquet"] }
               - label: "Index label (e.g. '01 — PAINT')"
                 name: "index"
